@@ -65,8 +65,9 @@ class WebClient { // make info call
   }
 
   createNewGame(url, strategy) async {
-    var newGameUrl = url + "/new/" + strategy;
+    var newGameUrl = url + "/new/?strategy=" + strategy;
     var response = await http.get(Uri.parse(newGameUrl));
+    print(response);
     var parser = JSONParser();
     var newGame = parser.parse(response);
 
