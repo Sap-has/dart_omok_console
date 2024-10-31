@@ -49,16 +49,28 @@ class ConsoleUI {
   // strictly 1-15, no letters/words, 2 numbers
   promptMove(boardSize) {
     print("Enter x and y (1-$boardSize, e.g., 8 10):");
-    
     var indexInput = stdin.readLineSync()!.split(" "); // array of strings
-
     try {
-      while(indexInput.isEmpty && indexInput.length > 2) {
-        
+        var posX = -1; 
+        var posY = -1;
+        if(indexInput.length == 2){
+          posX = int.parse(indexInput[0]);
+          posY = int.parse(indexInput[1]);
+        }
+        while(indexInput.length != 2 || (posX == -1 || posY == -1) || (posX > boardSize || posY > boardSize)){
+          print("Invalid Index!");
+          stdout.write('Enter x and y (1-15, e.g., 8 10): ');
+          indexInput = (stdin.readLineSync())!.split(" ");
+          if(indexInput.length == 2){
+            posX = int.parse(indexInput[0]);
+            posY = int.parse(indexInput[1]);
+          }
+        }
+        return indexInput;
+      } on FormatException {
+        print("Invalid Index!");
+        promptMove(boardSize);
       }
-    } on FormatException {
-      print("Invalid Index!");
-    }
   }
 
   showBoard() {
