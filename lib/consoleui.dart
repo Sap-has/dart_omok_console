@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'board.dart';
 
 class ConsoleUI {
   void welcome() {
@@ -73,7 +74,8 @@ class ConsoleUI {
       }
   }
 
-  showBoard() {
-    
+  showBoard(size) {
+    var board = Board(size);
+    print(board);
   }
 }
