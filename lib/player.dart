@@ -1,3 +1,9 @@
 class Player {
-  int? stone;
+  final String stone;
+
+  Player(this.stone);
+
+  @override
+  String toString() => stone;
+
 }

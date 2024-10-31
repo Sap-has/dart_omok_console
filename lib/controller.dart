@@ -23,7 +23,8 @@ class Controller {
     print(pid);
 
     // go to play to make a move from the specified game using its pid
-    var gameURL = net.findGame(url, pid);
+    // play takes pid, x and y position
+    var gameURL = net.findGame(url, pid); // only add pid
     print(gameURL);
 
     print(ui.promptMove(boardSize));

@@ -51,7 +51,6 @@ class ConsoleUI {
     print("Enter x and y (1-$boardSize, e.g., 8 10):");
     
     var indexInput = stdin.readLineSync()!.split(" "); // array of strings
-    return 'done';
 
     try {
       while(indexInput.isEmpty && indexInput.length > 2) {
@@ -60,5 +59,9 @@ class ConsoleUI {
     } on FormatException {
       print("Invalid Index!");
     }
+  }
+
+  showBoard() {
+    
   }
 }
