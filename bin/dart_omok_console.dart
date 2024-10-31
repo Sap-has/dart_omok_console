@@ -22,12 +22,15 @@ class Controller {
     var boardSize = net.getBoardSize(info);
     var strategies = net.getStrategies(info);
     var strategy = ui.promptStrategy(strategies);
+    print(strategy);
 
     // make a new game, use strategy to create it
-    int pid = await net.createNewGame(url, strategy);
+    var pid = await net.createNewGame(url, strategy);
+    print(pid);
 
     // go to play to make a move from the specified game using its pid
-    String gameURL = net.findGame(url, pid);
+    var gameURL = net.findGame(url, pid);
+    print(gameURL);
 
     print(ui.promptMove(boardSize));
   }
@@ -67,15 +70,14 @@ class WebClient { // make info call
   createNewGame(url, strategy) async {
     var newGameUrl = url + "/new/?strategy=" + strategy;
     var response = await http.get(Uri.parse(newGameUrl));
-    print(response);
     var parser = JSONParser();
     var newGame = parser.parse(response);
 
-    int pid = (newGame['pid']);
+    var pid = (newGame['pid']);
     return pid;
   }
   
-  String findGame(url, int pid) {
+  String findGame(url, pid) {
     return url+pid.toString();
   }
 }
@@ -131,6 +133,7 @@ class ConsoleUI {
     print("Enter x and y (1-$boardSize, e.g., 8 10):");
     
     var indexInput = stdin.readLineSync()!.split(" "); // array of strings
+    return 'done';
 
     try {
       while(indexInput.isEmpty && indexInput.length > 2) {
