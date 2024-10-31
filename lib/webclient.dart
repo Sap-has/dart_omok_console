@@ -34,6 +34,6 @@ class WebClient { // make info call
   }
   
   String findGame(url, pid) {
-    return url+pid.toString();
+    return url+"/play/?pid="+pid.toString();
   }
 }
