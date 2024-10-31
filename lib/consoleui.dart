@@ -53,20 +53,35 @@ class ConsoleUI {
     var net = WebClient();
     print("Enter x and y (1-$boardSize, e.g., 8 10):");
     var indexInput = stdin.readLineSync()!.split(" "); // array of strings
-    var newGameURL = net.getPlayURL(gameURL, indexInput);
-    var play = net.playResponse(gameURL);
+    var posX = -1;
+    var posY = -1;
     try {
-        while(!(play['response'])){
-          if(indexInput.length != 2){
-            print("Invalid index!");
-          }else if((play['reason']) == "Place not empty,(${indexInput[0]},${indexInput[1]})"){
-            print("Not empty!");
-          }
+      if(indexInput.length == 2){
+            posX = int.parse(indexInput[0]);
+            posY = int.parse(indexInput[1]);
+      }
+      while((posX == -1 || posY == -1)){
+          print("Invalid Index!");
           stdout.write('Enter x and y (1-15, e.g., 8 10): ');
           indexInput = (stdin.readLineSync())!.split(" ");
-          newGameURL = net.getPlayURL(gameURL, indexInput);
-          play = net.playResponse(gameURL);
+          if(indexInput.length == 2){
+            posX = int.parse(indexInput[0]);
+            posY = int.parse(indexInput[1]);
+          }
+      }
+      var newGameURL = net.getPlayURL(gameURL, indexInput);
+      var play = net.playResponse(gameURL);
+      while(!(play['response'])){
+        if((play['reason']) == "Place not empty,($posX,$posY)"){
+          print("Not empty!");
+        }else{
+          print("Invalid index!");
         }
+        stdout.write('Enter x and y (1-15, e.g., 8 10): ');
+        indexInput = (stdin.readLineSync())!.split(" ");
+        newGameURL = net.getPlayURL(gameURL, indexInput);
+        play = net.playResponse(gameURL);
+      }
       } on FormatException {
         print("Invalid Index!");
         promptMove(boardSize, gameURL);
