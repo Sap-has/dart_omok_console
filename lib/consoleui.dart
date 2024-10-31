@@ -49,7 +49,7 @@ class ConsoleUI {
 
   // for the assignment due 10/30/2024, only focus on user inputing valid numbers
   // strictly 1-15, no letters/words, 2 numbers
-  promptMove(boardSize, gameURL) {
+  promptMove(boardSize, gameURL) async {
     var net = WebClient();
     print("Enter x and y (1-$boardSize, e.g., 8 10):");
     var indexInput = stdin.readLineSync()!.split(" "); // array of strings
@@ -70,7 +70,7 @@ class ConsoleUI {
           }
       }
       var newGameURL = net.getPlayURL(gameURL, indexInput);
-      var play = net.playResponse(gameURL);
+      var play = await net.playResponse(gameURL);
       while(!(play['response'])){
         if((play['reason']) == "Place not empty,($posX,$posY)"){
           print("Not empty!");
@@ -80,7 +80,7 @@ class ConsoleUI {
         stdout.write('Enter x and y (1-15, e.g., 8 10): ');
         indexInput = (stdin.readLineSync())!.split(" ");
         newGameURL = net.getPlayURL(gameURL, indexInput);
-        play = net.playResponse(gameURL);
+        play = await net.playResponse(gameURL);
       }
       } on FormatException {
         print("Invalid Index!");
