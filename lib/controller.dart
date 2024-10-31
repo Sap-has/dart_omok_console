@@ -16,17 +16,18 @@ class Controller {
     var boardSize = net.getBoardSize(info);
     var strategies = net.getStrategies(info);
     var strategy = ui.promptStrategy(strategies);
-    print(strategy);
 
     // make a new game, use strategy to create it
     var pid = await net.createNewGame(url, strategy);
-    print(pid);
 
     // go to play to make a move from the specified game using its pid
     // play takes pid, x and y position
     var gameURL = net.findGame(url, pid); // only add pid
-    print(gameURL);
 
-    print(ui.promptMove(boardSize));
+    var currMove = ui.promptMove(boardSize); // array of [x, y]
+    gameURL = net.getPlayURL(gameURL, currMove);
+
+    var play = net.playResponse(gameURL);
+
   }
 }

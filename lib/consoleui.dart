@@ -58,7 +58,7 @@ class ConsoleUI {
           posX = int.parse(indexInput[0]);
           posY = int.parse(indexInput[1]);
         }
-        while(indexInput.length != 2 || (posX == -1 || posY == -1) || (posX > boardSize || posY > boardSize)){
+        while((posX == -1 || posY == -1) || (posX > boardSize || posY > boardSize)){
           print("Invalid Index!");
           stdout.write('Enter x and y (1-15, e.g., 8 10): ');
           indexInput = (stdin.readLineSync())!.split(" ");

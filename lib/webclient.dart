@@ -36,4 +36,15 @@ class WebClient { // make info call
   String findGame(url, pid) {
     return url+"/play/?pid="+pid.toString();
   }
+
+  playResponse(String gameURL) async {
+    var response = await http.get(Uri.parse(gameURL));
+    var parser = JSONParser();
+    var playResponse = parser.parse(response);
+    return playResponse;
+  }
+
+  String getPlayURL(String gameURL, currMove) {
+    return "$gameURL&x=${currMove[0]}&y=${currMove[1]}";
+  }
 }
