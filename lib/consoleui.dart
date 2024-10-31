@@ -70,7 +70,7 @@ class ConsoleUI {
           }
       }
       var newGameURL = net.getPlayURL(gameURL, indexInput);
-      var play = await net.playResponse(gameURL);
+      var play = await net.playResponse(newGameURL);
       while(!(play['response'])){
         if((play['reason']) == "Place not empty,($posX,$posY)"){
           print("Not empty!");
@@ -80,7 +80,7 @@ class ConsoleUI {
         stdout.write('Enter x and y (1-15, e.g., 8 10): ');
         indexInput = (stdin.readLineSync())!.split(" ");
         newGameURL = net.getPlayURL(gameURL, indexInput);
-        play = await net.playResponse(gameURL);
+        play = await net.playResponse(newGameURL);
       }
       } on FormatException {
         print("Invalid Index!");
