@@ -24,10 +24,6 @@ class Controller {
     // play takes pid, x and y position
     var gameURL = net.findGame(url, pid); // only add pid
 
-    var currMove = ui.promptMove(boardSize); // array of [x, y]
-    gameURL = net.getPlayURL(gameURL, currMove);
-
-    var play = net.playResponse(gameURL);
-
+    var currMove = ui.promptMove(boardSize, gameURL); // array of [x, y]
   }
 }
