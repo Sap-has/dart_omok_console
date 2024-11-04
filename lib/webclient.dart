@@ -1,5 +1,6 @@
 import 'jsonparser.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 // network class, only to make connection, not parsing
 class WebClient { // make info call  
@@ -32,19 +33,29 @@ class WebClient { // make info call
     var pid = (newGame['pid']);
     return pid;
   }
-  
-  String findGame(url, pid) {
-    return url+"/play/?pid="+pid.toString();
-  }
 
-  playResponse(String gameURL) async {
+  playResponse(String gameURL, currMove, pid) async {
+    gameURL = "$gameURL/play/?pid=${pid.toString()}&x=${currMove[0]}&y=${currMove[1]}";
     var response = await http.get(Uri.parse(gameURL));
     var parser = JSONParser();
     var playResponse = parser.parse(response);
     return playResponse;
   }
 
-  String getPlayURL(String gameURL, currMove) {
-    return "$gameURL&x=${currMove[0]}&y=${currMove[1]}";
+  evalPlayResponse(playResponse) {
+    if(!(playResponse['response'])){
+        if((playResponse['reason']).startsWith("Place not empty")){
+          print("Not empty!");
+          return false;
+        }
+    }
+    return true;
+  }
+
+  bool gameWon(playResponse) {
+    if((playResponse['ack_move']['row']).length == 0) {
+      return false;
+    }
+    return true;
   }
 }

@@ -22,8 +22,32 @@ class Controller {
 
     // go to play to make a move from the specified game using its pid
     // play takes pid, x and y position
-    var gameURL = net.findGame(url, pid); // only add pid
 
-    var currMove = ui.promptMove(boardSize, gameURL); // array of [x, y]
+    var currMove = await ui.promptMove(boardSize); // array of ["x", "y"]
+    var playResponse = await net.playResponse(url, currMove, pid); // json of response of game
+    print(playResponse);
+    bool empty = net.evalPlayResponse(playResponse); // checking for empty spot, if false, promptMove()
+
+    while(!empty) {
+      currMove = await ui.promptMove(boardSize);
+      playResponse = await net.playResponse(url, currMove, pid);
+      print(playResponse);
+      empty = net.evalPlayResponse(playResponse); // checking for empty spot
+    }
+
+    bool gameEnded = false;
+    while(!gameEnded) {
+      currMove = await ui.promptMove(boardSize);
+      playResponse = await net.playResponse(url, currMove, pid);
+      print(playResponse);
+      empty = net.evalPlayResponse(playResponse);
+      while(!empty) {
+        currMove = await ui.promptMove(boardSize);
+        playResponse = await net.playResponse(url, currMove, pid);
+        print(playResponse);
+        empty = net.evalPlayResponse(playResponse); // checking for empty spot
+      }
+      gameEnded = net.gameWon(playResponse);
+    }
   }
 }
