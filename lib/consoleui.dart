@@ -49,8 +49,7 @@ class ConsoleUI {
 
   // for the assignment due 10/30/2024, only focus on user inputing valid numbers
   // strictly 1-15, no letters/words, 2 numbers
-  promptMove(boardSize, gameURL) async {
-    var net = WebClient();
+  promptMove(boardSize) async {
     print("Enter x and y (1-$boardSize, e.g., 8 10):");
     var indexInput = stdin.readLineSync()!.split(" "); // array of strings
     var posX = -1;
@@ -62,29 +61,17 @@ class ConsoleUI {
       }
       while((posX == -1 || posY == -1)){
           print("Invalid Index!");
-          stdout.write('Enter x and y (1-15, e.g., 8 10): ');
-          indexInput = (stdin.readLineSync())!.split(" ");
+          print('Enter x and y (1-$boardSize, e.g., 8 10): ');
+          indexInput = stdin.readLineSync()!.split(" ");
           if(indexInput.length == 2){
             posX = int.parse(indexInput[0]);
             posY = int.parse(indexInput[1]);
           }
       }
-      var newGameURL = net.getPlayURL(gameURL, indexInput);
-      var play = await net.playResponse(newGameURL);
-      while(!(play['response'])){
-        if((play['reason']) == "Place not empty,($posX,$posY)"){
-          print("Not empty!");
-        }else{
-          print("Invalid index!");
-        }
-        stdout.write('Enter x and y (1-15, e.g., 8 10): ');
-        indexInput = (stdin.readLineSync())!.split(" ");
-        newGameURL = net.getPlayURL(gameURL, indexInput);
-        play = await net.playResponse(newGameURL);
-      }
+      return indexInput;
       } on FormatException {
         print("Invalid Index!");
-        promptMove(boardSize, gameURL);
+        promptMove(boardSize);
       }
   }
 
