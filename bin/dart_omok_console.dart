@@ -1,4 +1,4 @@
-import 'package:dart_omok_console/controller.dart';
+import 'controller.dart';
 
 void main() {
   var game = Controller();
