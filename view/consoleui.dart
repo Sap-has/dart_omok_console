@@ -19,9 +19,10 @@ class ConsoleUI {
   promptStrategy(strategies) {
     print("Select the server strategy: $strategies [default: 1]");
     while (true) {
-      var line = stdin.readLineSync()?.trim() ?? '1';
+      var line = stdin.readLineSync()?.trim();
+      if (line == "") line = "1";
       try {
-        int selection = int.parse(line);
+        int selection = int.parse(line!);
         if (selection > 0 && selection <= strategies.length) {
           print("Creating new game ....."); 
           return strategies[selection - 1];
