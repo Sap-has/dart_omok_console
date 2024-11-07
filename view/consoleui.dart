@@ -6,37 +6,27 @@ class ConsoleUI {
   void welcome() => print("Welcome to Omok!");
 
   promptURL() {
-    const defaultUrl = 'https://www.cs.utep.edu/cheon/cs3360/project/omok/';
-    String? url;
-
+    var defaultUrl = 'https://www.cs.utep.edu/cheon/cs3360/project/omok/';
     while (true) {
-      stdout.write('Enter the server URL [default: $defaultUrl]');
-      url = stdin.readLineSync()?.trim(); // removes any whitespace that is trailing
+      stdout.write('Enter the server URL [default: $defaultUrl] ');
+      var url = stdin.readLineSync()?.trim();
       url = (url == null || url.isEmpty) ? defaultUrl : url;
-      if (Uri.tryParse(url)!.isAbsolute) {
-        return url;
-      } else {
-        print("Please enter a valid URL.");
-      }
+      if (Uri.tryParse(url)!.isAbsolute) return url;
+      print("Please enter a valid URL.");
     }
   }
 
   promptStrategy(strategies) {
     print("Select the server strategy: $strategies [default: 1]");
-    int selection = 1;
-
     while (true) {
-      var line = stdin.readLineSync()?.trim();
-      line = (line == null || line.isEmpty) ? "1" : line;
-
+      var line = stdin.readLineSync()?.trim() ?? '1';
       try {
-        selection = int.parse(line);
-        if (selection == 1 || selection == 2) {
-          print("Creating new game .....");
+        int selection = int.parse(line);
+        if (selection > 0 && selection <= strategies.length) {
+          print("Creating new game ....."); 
           return strategies[selection - 1];
-        } else {
-          print("Invalid selection: $selection");
         }
+        print("Invalid selection: $selection");
       } on FormatException {
         print("Invalid input. Please enter a valid number.");
       }
@@ -45,25 +35,33 @@ class ConsoleUI {
 
   promptMove(int boardSize) async {
     print("Enter your move (1-$boardSize for both x and y): ");
-    var input = stdin.readLineSync()?.split(' ');
-    while (input == null || input.length != 2) {
-      print("Invalid input! Enter two numbers separated by a space.");
+    var input;
+    while (true) {
       input = stdin.readLineSync()?.split(' ');
+      if (input != null && input.length == 2) {
+        try {
+          int x = int.parse(input[0]) - 1;
+          int y = int.parse(input[1]) - 1;
+          return Move(x, y);
+        } on FormatException {
+          print("Invalid input! Enter two numbers separated by a space.");
+        }
+      }
+      print("Invalid input! Enter two numbers separated by a space.");
     }
-    return Move(int.parse(input[0]) - 1, int.parse(input[1]) - 1); // updates moves from the class move
   }
 
-  displayBoard(Board board) {
+  void displayBoard(Board board) {
     print("Current Board:");
-    print(board); // Uses Board's toString method to display the grid
+    print(board);
   }
 
-  displayConsoleMoves(playerMove, computerMove) {
-    print("Your move: (${playerMove['x'] + 1}, ${playerMove['y'] + 1})"); // it is 1-based indexing
-    print("Computer move: (${computerMove['x'] + 1}, ${computerMove['y'] + 1})");
+  void displayError(String reason) {
+    print(reason);
+    print("Error: $reason");
   }
 
-  showEndGameResult(response, bool playerWon) {
+  void showEndGameResult(response, bool playerWon) {
     if (response['ack_move']['isWin'] && playerWon) {
       print("Congratulations, you won!");
     } else if (response['move']['isWin'] && !playerWon) {

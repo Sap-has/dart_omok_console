@@ -1,5 +1,7 @@
 import 'package:http/http.dart' as http;
+import '../models/board.dart';
 import 'jsonparser.dart';
+import '../view/consoleui.dart';
 
 class WebClient {
   getInfo(url) async { // return array of strategies
@@ -39,5 +41,18 @@ class WebClient {
     var parser = JSONParser();
     var playResponse = parser.parse(response);
     return playResponse;
+  }
+
+  bool checkGameEnd(playResponse, Board board, bool playerTurn) {
+    ConsoleUI ui = ConsoleUI();
+    if (playResponse['ack_move']['isWin'] || playResponse['move']['isWin']) {
+      ui.showEndGameResult(playResponse, playerTurn);
+      return true;
+    } else if (playResponse['ack_move']['isDraw'] || playResponse['move']['isDraw']) {
+      ui.showEndGameResult(playResponse, false);
+      return true;
+    }
+    return false;
+
   }
 }
