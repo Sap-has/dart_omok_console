@@ -35,13 +35,15 @@ class Controller {
 
       // Process player's move
       board.update(move, 'X');
-      gameEnded = webClient.checkGameEnd(playResponse, board, true);
-      if (gameEnded) continue;
+      gameEnded = webClient.checkGameEnd(playResponse, board);
+      if (gameEnded) {
+        continue;
+      }
 
       // Process computer's move
       var computerMove = Move(playResponse['move']['x'], playResponse['move']['y']);
       board.update(computerMove, 'O');
-      gameEnded = webClient.checkGameEnd(playResponse, board, false);
+      gameEnded = webClient.checkGameEnd(playResponse, board);
     }
   }
 } // class ends

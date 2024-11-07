@@ -43,13 +43,13 @@ class WebClient {
     return playResponse;
   }
 
-  bool checkGameEnd(playResponse, Board board, bool playerTurn) {
+  bool checkGameEnd(playResponse, Board board) {
     ConsoleUI ui = ConsoleUI();
     if (playResponse['ack_move']['isWin'] || playResponse['move']['isWin']) {
-      ui.showEndGameResult(playResponse, playerTurn);
+      ui.showEndGameResult(playResponse, board);
       return true;
     } else if (playResponse['ack_move']['isDraw'] || playResponse['move']['isDraw']) {
-      ui.showEndGameResult(playResponse, false);
+      ui.showEndGameResult(playResponse, board);
       return true;
     }
     return false;

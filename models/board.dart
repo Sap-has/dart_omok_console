@@ -12,20 +12,24 @@ class Board {
     grid[move.x][move.y] = playerSymbol;
   }
 
+  markWinningLine(winningLine) {
+    for (var move in winningLine) {
+      grid[move.x][move.y] = 'W';
+    }
+  }
+
   @override
   String toString() {
     // Column headers with modulo operation to wrap around after 9
-    String header = '   ${List.generate(size, (i) => ((i + 1) % 10).toString()).join(' ')} x\n';
+    String header = ' x ${List.generate(size, (i) => ((i + 1) % 10).toString()).join(' ')}\n';
 
     // Rows with row numbers
-    String boardRepresentation = '';
+    String boardRepresentation = ' y\n';
     for (int i = 0; i < size; i++) {
       String row = '${(i + 1) % 10} '.padLeft(3);  // Row number with modulo to wrap after 9
       row += grid[i].join(' ');                    // Add cells in the row
       boardRepresentation += '$row\n';
     }
-    boardRepresentation += " y";
-
     return header + boardRepresentation;
   }
 }

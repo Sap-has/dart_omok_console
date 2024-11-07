@@ -1,6 +1,7 @@
 import 'dart:io';
 import '../models/move.dart';
 import '../models/board.dart';
+import '../services/jsonparser.dart';
 
 class ConsoleUI {
   void welcome() => print("Welcome to Omok!");
@@ -62,10 +63,17 @@ class ConsoleUI {
     print("Error: $reason");
   }
 
-  void showEndGameResult(response, bool playerWon) {
-    if (response['ack_move']['isWin'] && playerWon) {
+  void showEndGameResult(response, board) {
+    JSONParser parse = JSONParser();
+    if (response['ack_move']['isWin']) {
+      var winningLine = parse.parseWinningLine(response['ack_move']['row']);
+      board.markWinningLine(winningLine);
+      displayBoard(board);
       print("Congratulations, you won!");
-    } else if (response['move']['isWin'] && !playerWon) {
+    } else if (response['move']['isWin']) {
+      var winningLine = parse.parseWinningLine(response['move']['row']);
+      board.markWinningLine(winningLine);
+      displayBoard(board);
       print("Game over. The computer won!");
     } else if (response['ack_move']['isDraw'] || response['move']['isDraw']) {
       print("It's a draw!");
