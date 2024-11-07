@@ -42,7 +42,7 @@ class Controller {
 
       // Process computer's move
       var computerMove = Move(playResponse['move']['x'], playResponse['move']['y']);
-      board.update(computerMove, 'O');
+      board.update(computerMove, 'O', isComputerMove: true);
       gameEnded = webClient.checkGameEnd(playResponse, board);
     }
   }
