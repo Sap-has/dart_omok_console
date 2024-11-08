@@ -1,8 +1,9 @@
-import '../services/webclient.dart';
-import '../view/consoleui.dart';
-import '../models/move.dart';
-import '../models/board.dart';
+import 'webclient.dart';
+import 'consoleui.dart';
+import 'move.dart';
+import 'board.dart';
 
+///Library [Controller] runs a new game with function [runGame] until it ends
 class Controller {
   runGame() async {
     ConsoleUI ui = ConsoleUI();

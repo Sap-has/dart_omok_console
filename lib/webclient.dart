@@ -1,7 +1,7 @@
+import 'package:dart_omok_console/consoleui.dart';
 import 'package:http/http.dart' as http;
-import '../models/board.dart';
+import 'board.dart';
 import 'jsonparser.dart';
-import '../view/consoleui.dart';
 
 class WebClient {
   getInfo(url) async { // return array of strategies

@@ -1,6 +1,6 @@
 // make a parsing class
 import 'dart:convert';
-import '../models/move.dart';
+import 'move.dart';
 
 class JSONParser {
   parse(response) {

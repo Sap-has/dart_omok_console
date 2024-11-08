@@ -1,7 +1,7 @@
 import 'dart:io';
-import '../models/move.dart';
-import '../models/board.dart';
-import '../services/jsonparser.dart';
+import 'move.dart';
+import 'board.dart';
+import 'jsonparser.dart';
 
 class ConsoleUI {
   void welcome() => print("Welcome to Omok!");
