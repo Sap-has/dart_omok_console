@@ -3,7 +3,8 @@ import 'consoleui.dart';
 import 'move.dart';
 import 'board.dart';
 
-///Library [Controller] runs a new game with function [runGame] until it ends
+//CONTROLLER
+///Class [Controller] runs a new game with function [runGame] until it ends
 class Controller {
   runGame() async {
     ConsoleUI ui = ConsoleUI();

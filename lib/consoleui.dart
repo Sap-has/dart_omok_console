@@ -3,9 +3,12 @@ import 'move.dart';
 import 'board.dart';
 import 'jsonparser.dart';
 
+//VIEW
+///Class [ConsoleUI] interacts with the user for the game
 class ConsoleUI {
   void welcome() => print("Welcome to Omok!");
 
+  ///Function [promptURL] asks the user for the game URL
   promptURL() {
     var defaultUrl = 'https://www.cs.utep.edu/cheon/cs3360/project/omok/';
     while (true) {
@@ -17,8 +20,9 @@ class ConsoleUI {
     }
   }
 
+  ///Function [promptStrategy] asks the user for the desired game strategy
   promptStrategy(strategies) {
-    print("Select the server strategy: $strategies [default: 1]");
+    print("Select the server strategy (1 or 2): 1.${strategies[0]} 2.${strategies[1]} [default: 1]");
     while (true) {
       var line = stdin.readLineSync()?.trim();
       if (line == "") line = "1";
@@ -35,8 +39,9 @@ class ConsoleUI {
     }
   }
 
+  ///Function [promptMove] asks the user for the desired move
   promptMove(int boardSize) async {
-    print("Enter your move (1-$boardSize for both x and y): ");
+    print("Enter your move (1-$boardSize for both y,x): ");
     var input;
     while (true) {
       input = stdin.readLineSync()?.split(' ');
@@ -53,16 +58,25 @@ class ConsoleUI {
     }
   }
 
+  ///Function [displayBoard] shows the user the current board's state
   void displayBoard(Board board) {
-    print("Current Board:");
+    print("Current Board (Computer O, Player X, Computer's Last Move *):");
     print(board);
   }
 
+  ///Function [displayError] gives the user an error if there's an issue
   void displayError(String reason) {
-    print(reason);
-    print("Error: $reason");
+    if((reason.split(" "))[2] == "empty,"){
+      var num1 = int.parse(reason[18])+1;
+      var num2 = int.parse(reason[21])+1;
+      print("Error: Place not empty, ($num1, $num2)");
+    }
+    else{
+      print("Error: $reason");
+    }
   }
 
+  ///Function [showEndGameResult] shows the user the last state of the board
   void showEndGameResult(response, board) {
     JSONParser parse = JSONParser();
     if (response['ack_move']['isWin']) {
